@@ -21,6 +21,11 @@
   );
 }
 
+.hand {
+  display: flex;
+  gap: 12px;
+}
+
 .card-red {
   color: #c0392b;
 }

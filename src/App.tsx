@@ -5,8 +5,12 @@ import Card from "./components/Card/Card";
 export default function App() {
   return (
     <main>
-      <Card card={{ suit: "hearts", rank: "A" }} />
-      <Card card={{ suit: "spades", rank: "K" }} faceDown />
+      <div className="hand">
+        <Card card={{ suit: "hearts", rank: "A" }} />
+        <Card card={{ suit: "spades", rank: "K" }} faceDown />
+        <Card card={{ suit: "clubs", rank: "10" }} />
+        <Card card={{ suit: "diamonds", rank: "3" }} />
+      </div>
     </main>
   );
 }
