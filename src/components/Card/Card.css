@@ -1,0 +1,39 @@
+.card {
+  width: 80px;
+  height: 120px;
+  border: 2px solid #333;
+  border-radius: 8px;
+  background: white;
+  display: grid; /*assignment specifically wants CSS Grid as layout method*/
+  grid-template-rows: 1fr 1fr;
+  place-items: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.card-back {
+  background: repeating-linear-gradient(
+    45deg,
+    #ffd444,
+    #ffd444 10px,
+    #f4eb6c 10px,
+    #f4eb6c 20px
+  );
+}
+
+.hand {
+  display: flex;
+  gap: 12px;
+}
+
+.card-red {
+  color: #c0392b;
+}
+
+.card-suit {
+  font-size: 4rem;
+}
+
+.card-rank {
+  font-size: 2.5rem;
+}
