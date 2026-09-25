@@ -21,7 +21,12 @@ export type PlayingCard = {
     | "A";
 };
 
-type PokerHand =
+export type Payout = {
+  hand: string;
+  payoutByBet: number[];
+};
+
+export type PokerHand =
   | "High Card"
   | "Pair"
   | "Two Pair"
@@ -32,9 +37,3 @@ type PokerHand =
   | "Four of a Kind"
   | "Straight Flush"
   | "Royal Flush";
-
-/*make payout type? Maybe to map all rows:
-  export type Payout = {
-  hand: string;
-  payoutAmount: number;
-};*/
