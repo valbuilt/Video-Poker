@@ -1,0 +1,27 @@
+.payout-table {
+  width: 50%;
+  border-collapse: collapse;
+
+  background-color: #235644;
+  font-size: 16px;
+  margin-bottom: 30px;
+}
+
+.payout-table thead {
+  background-color: green;
+}
+
+.payout-table tr:nth-child(even) {
+  background-color: #1a4234;
+}
+
+td {
+  border: 1px solid white;
+}
+
+.payout-table th,
+.payout-table td {
+  color: #f4eb6c;
+  text-align: left;
+  padding: 4px 12px;
+}
