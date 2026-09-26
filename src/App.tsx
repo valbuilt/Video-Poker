@@ -3,6 +3,7 @@ import Card from "./components/Card/Card";
 import TotalCoins from "./components/TotalCoins/TotalCoins";
 import CurrentBet from "./components/CurrentBet/CurrentBet";
 import PayoutTable from "./components/PayoutTable/PayoutTable";
+import PlayerSelect from "./components/PlayerSelect/PlayerSelect";
 
 /* Card is the component name, card is the property*/
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
         <div className="bet-area">
           <TotalCoins coins={100} />
           <CurrentBet bet={5} />
+          <PlayerSelect />
         </div>
       </div>
     </main>
