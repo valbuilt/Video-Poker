@@ -9,10 +9,14 @@ import { useGameStore } from "./store/gameStore";
 /* Card is the component name, card is the property*/
 export default function App() {
   const players = useGameStore((state) => state.players);
+  const currentPlayer = useGameStore((state) => state.currentPlayer);
 
   return (
     <main>
       <p>Players in store: {players.length}</p>
+      <p>
+        Current player: {currentPlayer ? currentPlayer.name : "none selected"}
+      </p>
 
       <PayoutTable />
 

@@ -1,13 +1,16 @@
 import { useState } from "react";
-import type { Player } from "../../types";
+import { useGameStore } from "../../store/gameStore";
 
 /**
  * Shows a list of existing players and lets the user create a new one.
- * Clicking a player doesn't do anything yet. I'll connect that once I've got Zustand and routing set up.
- * @returns a list of existing players (clickable) and a form to add a new one
+ * Clicking player sets them as the current player in the store.
+ * @returns a list of existing players and a form to add a new one
  */
 export default function PlayerSelect() {
-  const [players, setPlayers] = useState([] as Player[]);
+  const players = useGameStore((state) => state.players);
+  const addPlayer = useGameStore((state) => state.addPlayer);
+  const selectPlayer = useGameStore((state) => state.selectPlayer);
+
   const [newName, setNewName] = useState("");
 
   /**
@@ -20,26 +23,16 @@ export default function PlayerSelect() {
   }
 
   /**
-   * Creates a new player with the typed name and 100 starting coins, adds them to the list, and clears the input.
+   * Creates a new player with the typed name, via the store, and 100 starting coins, and clears the input.
    * Does nothing if the name is empty (stops the function).
    * @returns nothing
    */
-  function addPlayer() {
+  function handleAddPlayer() {
     if (newName.trim() === "") {
       return;
     }
-    const newPlayer: Player = { name: newName, coins: 100 };
-    setPlayers([...players, newPlayer]);
+    addPlayer(newName);
     setNewName("");
-  }
-
-  /**
-   * Will set this player as the current player and take them to the game screen once the store and routing exist. Right now it just logs.
-   * @param player - the player that was clicked
-   * @returns nothing
-   */
-  function selectPlayer(player: Player) {
-    console.log("Selected:", player.name);
   }
 
   return (
@@ -55,7 +48,7 @@ export default function PlayerSelect() {
         ))}
       </ul>
       <input type="text" value={newName} onChange={handleNameChange} />
-      <button onClick={addPlayer}>New Player</button>
+      <button onClick={handleAddPlayer}>New Player</button>
     </section>
   );
 }
