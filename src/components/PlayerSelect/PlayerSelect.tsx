@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useGameStore } from "../../store/gameStore";
+import { useGameStore } from "../../store/gameStore.ts";
 
 /**
  * Shows a list of existing players and lets the user create a new one.

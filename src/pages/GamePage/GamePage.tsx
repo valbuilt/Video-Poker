@@ -1,21 +1,25 @@
-import Card from "../../components/Card/Card";
-import TotalCoins from "../../components/TotalCoins/TotalCoins";
-import CurrentBet from "../../components/CurrentBet/CurrentBet";
+import Card from "../../components/Card/Card.tsx";
+import TotalCoins from "../../components/TotalCoins/TotalCoins.tsx";
+import CurrentBet from "../../components/CurrentBet/CurrentBet.tsx";
+import { useGameStore } from "../../store/gameStore.ts";
 
 /**
- * The main game screen. Still work in progress. Real deck and hand logic comes later.
- * @returns a placeholder game layout
+ * The main game screen. Shows a Deal button and the player's current hand from the store.
+ * @returns the deal button and the hand of cards
  */
+
 export default function GamePage() {
+  const hand = useGameStore((state) => state.hand);
+  const dealNewHand = useGameStore((state) => state.dealNewHand);
+
   return (
-    <div className="hand">
-      <Card card={{ suit: "hearts", rank: "A" }} />
-      <Card card={{ suit: "spades", rank: "K" }} faceDown />
-      <Card card={{ suit: "diamonds", rank: "2" }} />
-      <Card card={{ suit: "spades", rank: "5" }} />
-      <Card card={{ suit: "clubs", rank: "10" }} />
-      <TotalCoins coins={100} />
-      <CurrentBet bet={5} />
+    <div>
+      <button onClick={dealNewHand}>Deal</button>
+      <div className="hand">
+        {hand.map((card, index) => (
+          <Card key={index} card={card} />
+        ))}
+      </div>
     </div>
   );
 }
