@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useGameStore } from "../../store/gameStore.ts";
+import "./PlayerSelect.css";
 
 /**
  * Shows a list of existing players and lets the user create a new one.
@@ -36,7 +37,7 @@ export default function PlayerSelect() {
   }
 
   return (
-    <section>
+    <section className="player-select">
       <h2>Choose Player</h2>
       <ul>
         {players.map((player) => (

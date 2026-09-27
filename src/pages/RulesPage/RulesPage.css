@@ -1,0 +1,17 @@
+.rules {
+  color: white;
+  font-size: 1.2rem;
+  margin: 30px;
+}
+
+.rules-layout {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.rules-cards {
+  display: flex;
+  gap: 12px;
+  margin: 16px 0;
+}
