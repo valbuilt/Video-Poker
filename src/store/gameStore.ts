@@ -1,5 +1,6 @@
 import { create } from "zustand";
-import type { Player, PlayingCard } from "../types";
+import type { Player, PlayingCard } from "../types.ts";
+import { createDeck, shuffleDeck, dealHand } from "../logic/deck.ts";
 
 type GameState = {
   players: Player[];
@@ -10,6 +11,7 @@ type GameState = {
   addPlayer: (name: string) => void;
   selectPlayer: (player: Player) => void;
   updateCoins: (amount: number) => void;
+  dealNewHand: () => void;
 };
 
 export const useGameStore = create<GameState>((set) => ({
@@ -59,5 +61,17 @@ export const useGameStore = create<GameState>((set) => ({
           player.name === updatedPlayer.name ? updatedPlayer : player,
         ),
       };
+    }),
+
+  /**
+   * Builds a fresh deck, shuffles it and deals 5 cards as the player's new hand.
+   * Clears out any previous discard pile.
+   * @returns nothing
+   */
+  dealNewHand: () =>
+    set(() => {
+      const freshDeck = shuffleDeck(createDeck());
+      const { hand, remainingDeck } = dealHand(freshDeck);
+      return { deck: remainingDeck, hand, discarded: [] };
     }),
 }));

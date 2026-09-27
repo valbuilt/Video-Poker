@@ -1,4 +1,4 @@
-import type { PlayingCard } from "../../types";
+import type { PlayingCard } from "../../types.ts";
 import "./Card.css";
 
 type CardProps = {

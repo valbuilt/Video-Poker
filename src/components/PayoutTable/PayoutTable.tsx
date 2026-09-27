@@ -1,4 +1,4 @@
-import type { Payout } from "../../types";
+import type { Payout } from "../../types.ts";
 import "./PayoutTable.css";
 
 const payouts: Payout[] = [
