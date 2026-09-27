@@ -1,17 +1,19 @@
 import { create } from "zustand";
-import type { Player, PlayingCard } from "../types.ts";
+import type { Player, PlayingCard, HeldCard } from "../types.ts";
 import { createDeck, shuffleDeck, dealHand } from "../logic/deck.ts";
 
 type GameState = {
   players: Player[];
   currentPlayer: Player | null;
   deck: PlayingCard[];
-  hand: PlayingCard[];
+  hand: HeldCard[];
   discarded: PlayingCard[];
   addPlayer: (name: string) => void;
   selectPlayer: (player: Player) => void;
   updateCoins: (amount: number) => void;
   dealNewHand: () => void;
+  toggleHold: (index: number) => void;
+  draw: () => void;
 };
 
 export const useGameStore = create<GameState>((set) => ({
@@ -72,6 +74,47 @@ export const useGameStore = create<GameState>((set) => ({
     set(() => {
       const freshDeck = shuffleDeck(createDeck());
       const { hand, remainingDeck } = dealHand(freshDeck);
-      return { deck: remainingDeck, hand, discarded: [] };
+      const handWithHoldMark: HeldCard[] = hand.map((card) => ({
+        ...card,
+        held: false,
+      }));
+      return { deck: remainingDeck, hand: handWithHoldMark, discarded: [] };
+    }),
+
+  /**
+   * Flips the held status of one card in the hand, by its position.
+   * @param index - which card in the hand to toggle
+   * @returns nothing
+   */
+  toggleHold: (index) =>
+    set((state) => ({
+      hand: state.hand.map((card, position) =>
+        position === index ? { ...card, held: !card.held } : card,
+      ),
+    })),
+
+  /**
+   * Replaces every non-held card in the hand with a new card from the deck, moving the replaced cards to the discard pile.
+   * @returns nothing
+   */
+  draw: () =>
+    set((state) => {
+      const keptCards = state.hand.filter((card) => card.held);
+      const discardedCards = state.hand.filter((card) => !card.held);
+      const numberToReplace = discardedCards.length;
+
+      const newCards = state.deck.slice(0, numberToReplace);
+      const remainingDeck = state.deck.slice(numberToReplace);
+
+      const newHand: HeldCard[] = [
+        ...keptCards,
+        ...newCards.map((card) => ({ ...card, held: false })),
+      ];
+
+      return {
+        hand: newHand,
+        deck: remainingDeck,
+        discarded: [...state.discarded, ...discardedCards],
+      };
     }),
 }));

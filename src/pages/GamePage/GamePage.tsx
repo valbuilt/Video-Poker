@@ -1,23 +1,34 @@
 import Card from "../../components/Card/Card.tsx";
-import TotalCoins from "../../components/TotalCoins/TotalCoins.tsx";
-import CurrentBet from "../../components/CurrentBet/CurrentBet.tsx";
 import { useGameStore } from "../../store/gameStore.ts";
+import "./GamePage.css";
 
 /**
- * The main game screen. Shows a Deal button and the player's current hand from the store.
- * @returns the deal button and the hand of cards
+ * The main game screen. Shows a Deal button and the player's current hand
+ * (click a card to hold it), and a Draw button to replace the rest.
+ * @returns the deal/draw buttons and the hand of cards
  */
 
 export default function GamePage() {
   const hand = useGameStore((state) => state.hand);
   const dealNewHand = useGameStore((state) => state.dealNewHand);
+  const toggleHold = useGameStore((state) => state.toggleHold);
+  const draw = useGameStore((state) => state.draw);
 
   return (
     <div>
       <button onClick={dealNewHand}>Deal</button>
+      <button onClick={draw}>Draw</button>
+
       <div className="hand">
         {hand.map((card, index) => (
-          <Card key={index} card={card} />
+          <button
+            key={index}
+            className="card-wrapper"
+            onClick={() => toggleHold(index)}
+          >
+            <Card card={card} />
+            {card.held && <p>Hold</p>}
+          </button>
         ))}
       </div>
     </div>

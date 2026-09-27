@@ -37,3 +37,7 @@ export type PokerHand =
   | "Four of a Kind"
   | "Straight Flush"
   | "Royal Flush";
+
+export type HeldCard = PlayingCard & {
+  held: boolean;
+};
