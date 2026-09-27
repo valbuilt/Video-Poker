@@ -1,0 +1,23 @@
+nav {
+  display: flex;
+  gap: 20px;
+  padding: 12px;
+  font-weight: bold;
+  justify-content: center;
+}
+
+nav a {
+  color: #f4eb6c;
+  text-decoration: none;
+  margin-top: 2rem;
+  font-size: 1.5rem;
+  transition: opacity 0.2s;
+}
+
+nav a:hover {
+  opacity: 0.5;
+}
+
+nav a.active {
+  opacity: 0.6;
+}
