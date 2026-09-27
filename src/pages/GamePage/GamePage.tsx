@@ -1,4 +1,5 @@
 import Card from "../../components/Card/Card.tsx";
+import PayoutTable from "../../components/PayoutTable/PayoutTable.tsx";
 import { useGameStore } from "../../store/gameStore.ts";
 import "./GamePage.css";
 
@@ -15,21 +16,37 @@ export default function GamePage() {
   const draw = useGameStore((state) => state.draw);
 
   return (
-    <div>
-      <button onClick={dealNewHand}>Deal</button>
-      <button onClick={draw}>Draw</button>
+    <div className="game-page">
+      <PayoutTable />
 
-      <div className="hand">
-        {hand.map((card, index) => (
-          <button
-            key={index}
-            className="card-wrapper"
-            onClick={() => toggleHold(index)}
-          >
-            <Card card={card} />
-            {card.held && <p>Hold</p>}
-          </button>
-        ))}
+      <div className="game-controls">
+        <div className="hand">
+          {hand.length === 0 ? (
+            <>
+              <Card faceDown card={{ suit: "hearts", rank: "A" }} />
+              <Card faceDown card={{ suit: "hearts", rank: "A" }} />
+              <Card faceDown card={{ suit: "hearts", rank: "A" }} />
+              <Card faceDown card={{ suit: "hearts", rank: "A" }} />
+              <Card faceDown card={{ suit: "hearts", rank: "A" }} />
+            </>
+          ) : (
+            hand.map((card, index) => (
+              <button
+                key={index}
+                className="card-wrapper"
+                onClick={() => toggleHold(index)}
+              >
+                <Card card={card} />
+                {card.held && <p className="hold-label">Hold</p>}
+              </button>
+            ))
+          )}
+        </div>
+
+        <div className="buttons">
+          <button onClick={dealNewHand}>Deal</button>
+          <button onClick={draw}>Draw</button>
+        </div>
       </div>
     </div>
   );
