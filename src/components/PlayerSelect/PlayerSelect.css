@@ -18,3 +18,33 @@
   font-size: 1.2rem;
   padding: 10px 20px;
 }
+
+.player-select ul {
+  list-style: none;
+  padding: 0;
+  margin: 20px;
+}
+
+.player-select li {
+  margin-bottom: 5px;
+}
+
+.player-link {
+  color: #f4eb6c;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.player-link:hover {
+  color: #db2b39;
+  transform: scale(1.5);
+  text-shadow: 1px 1px 3px white;
+}
+
+.player-avatar {
+  font-size: 3rem;
+}
