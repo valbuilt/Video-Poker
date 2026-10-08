@@ -1,6 +1,8 @@
 import Card from "../../components/Card/Card.tsx";
 import PayoutTable from "../../components/PayoutTable/PayoutTable.tsx";
 import { useGameStore } from "../../store/gameStore.ts";
+import TotalCoins from "../../components/TotalCoins/TotalCoins.tsx";
+import CurrentBet from "../../components/CurrentBet/CurrentBet.tsx";
 import "./GamePage.css";
 
 /**
@@ -14,6 +16,10 @@ export default function GamePage() {
   const dealNewHand = useGameStore((state) => state.dealNewHand);
   const toggleHold = useGameStore((state) => state.toggleHold);
   const draw = useGameStore((state) => state.draw);
+  const bet = useGameStore((state) => state.bet);
+  const increaseBet = useGameStore((state) => state.increaseBet);
+  const decreaseBet = useGameStore((state) => state.decreaseBet);
+  const currentPlayer = useGameStore((state) => state.currentPlayer);
 
   return (
     <div className="game-page">
@@ -41,6 +47,15 @@ export default function GamePage() {
               </button>
             ))
           )}
+        </div>
+
+        <div className="bet-area">
+          {currentPlayer && <TotalCoins coins={currentPlayer.coins} />}
+          <CurrentBet bet={bet} />
+          <div className="bet-buttons">
+            <button onClick={increaseBet}>Increase Bet</button>
+            <button onClick={decreaseBet}>Decrease Bet</button>
+          </div>
         </div>
 
         <div className="buttons">
