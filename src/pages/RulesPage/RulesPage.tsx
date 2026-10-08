@@ -46,7 +46,6 @@ export default function RulesPage() {
           <Card card={{ suit: "spades", rank: "K" }} faceDown />
         </div>
       </div>
-      ;
     </section>
   );
 }
