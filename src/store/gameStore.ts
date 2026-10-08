@@ -14,6 +14,9 @@ type GameState = {
   dealNewHand: () => void;
   toggleHold: (index: number) => void;
   draw: () => void;
+  bet: number;
+  increaseBet: () => void;
+  decreaseBet: () => void;
 };
 
 export const useGameStore = create<GameState>((set) => ({
@@ -22,6 +25,7 @@ export const useGameStore = create<GameState>((set) => ({
   deck: [],
   hand: [],
   discarded: [],
+  bet: 1,
 
   /**
    * Adds a new player with 100 starting coins to the players list.
@@ -116,5 +120,30 @@ export const useGameStore = create<GameState>((set) => ({
         deck: remainingDeck,
         discarded: [...state.discarded, ...discardedCards],
       };
+    }),
+
+  /**
+   * Raises the bet by 1 coin. Does nothing if the bet is already 5, since that's the max.
+   * @returns nothing
+   */
+
+  increaseBet: () =>
+    set((state) => {
+      if (state.bet >= 5) {
+        return state;
+      }
+      return { bet: state.bet + 1 };
+    }),
+
+  /**
+   * Lowers the bet by 1 coin. Does nothing if the bet is already 1, since that's the min.
+   * @returns nothing
+   */
+  decreaseBet: () =>
+    set((state) => {
+      if (state.bet <= 1) {
+        return state;
+      }
+      return { bet: state.bet - 1 };
     }),
 }));
