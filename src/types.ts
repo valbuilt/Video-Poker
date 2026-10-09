@@ -29,6 +29,7 @@ export type Payout = {
 export type PokerHand =
   | "High Card"
   | "Pair"
+  | "Jacks or Better"
   | "Two Pair"
   | "Three of a Kind"
   | "Straight"
