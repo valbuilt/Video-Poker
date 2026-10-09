@@ -34,8 +34,9 @@ export default function RulesPage() {
       <p>
         From Jacks or Better all the way up to a Royal Flush, every winning hand
         has its own payout.
-        <p>The more coins you bet, the higher your potential payout.</p>
       </p>
+      <p>The more coins you bet, the higher your potential payout.</p>
+
       <p>
         <strong>Ready to test your luck? Deal your hand!</strong>
       </p>
