@@ -70,6 +70,10 @@
   font-weight: bold;
 }
 
+.hint {
+  color: white;
+}
+
 @media (max-width: 768px) {
   .game-page {
     padding: 0 8px;

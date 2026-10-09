@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useGameStore } from "../../store/gameStore.ts";
 import { NavLink } from "react-router";
-import type { Player } from "../../types.ts";
 import "./PlayerSelect.css";
 
 /**
