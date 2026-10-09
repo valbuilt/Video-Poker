@@ -3,6 +3,8 @@ import PayoutTable from "../../components/PayoutTable/PayoutTable.tsx";
 import { useGameStore } from "../../store/gameStore.ts";
 import TotalCoins from "../../components/TotalCoins/TotalCoins.tsx";
 import CurrentBet from "../../components/CurrentBet/CurrentBet.tsx";
+import CurrentHand from "../CurrentHand/CurrentHand.tsx";
+import { evaluateHand } from "../../logic/evaluateHand.ts";
 import "./Game.css";
 
 /**
@@ -12,6 +14,7 @@ import "./Game.css";
 
 export default function Game() {
   const hand = useGameStore((state) => state.hand);
+  const handEvaluated = useGameStore((state) => state.handEvaluated);
   const dealNewHand = useGameStore((state) => state.dealNewHand);
   const toggleHold = useGameStore((state) => state.toggleHold);
   const draw = useGameStore((state) => state.draw);
@@ -19,6 +22,10 @@ export default function Game() {
   const increaseBet = useGameStore((state) => state.increaseBet);
   const decreaseBet = useGameStore((state) => state.decreaseBet);
   const currentPlayer = useGameStore((state) => state.currentPlayer);
+  const pokerHand =
+    handEvaluated && hand.length === 5 ? evaluateHand(hand) : null;
+  const isWinningHand =
+    pokerHand !== null && pokerHand !== "High Card" && pokerHand !== "Pair";
 
   return (
     <div className="game-page">
@@ -47,6 +54,8 @@ export default function Game() {
             ))
           )}
         </div>
+
+        {isWinningHand && pokerHand && <CurrentHand pokerHand={pokerHand} />}
 
         <div className="bet-area">
           {currentPlayer && <TotalCoins coins={currentPlayer.coins} />}

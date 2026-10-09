@@ -9,6 +9,7 @@ type GameState = {
   deck: PlayingCard[];
   hand: HeldCard[];
   discarded: PlayingCard[];
+  handEvaluated: boolean;
   addPlayer: (name: string) => void;
   selectPlayer: (player: Player) => void;
   updateCoins: (amount: number) => void;
@@ -28,6 +29,7 @@ export const useGameStore = create<GameState>()(
       currentPlayer: null,
       deck: [],
       hand: [],
+      handEvaluated: false,
       discarded: [],
       bet: 1,
 
@@ -75,7 +77,7 @@ export const useGameStore = create<GameState>()(
 
       /**
        * Builds a fresh deck, shuffles it and deals 5 cards as the player's new hand.
-       * Clears out any previous discard pile.
+       * Clears the discard pile and resets handEvaluated so the result isn't shown before the next draw.
        * @returns nothing
        */
       dealNewHand: () =>
@@ -86,7 +88,13 @@ export const useGameStore = create<GameState>()(
             ...card,
             held: false,
           }));
-          return { deck: remainingDeck, hand: handWithHoldMark, discarded: [] };
+
+          return {
+            deck: remainingDeck,
+            hand: handWithHoldMark,
+            discarded: [],
+            handEvaluated: false,
+          };
         }),
 
       /**
@@ -103,6 +111,7 @@ export const useGameStore = create<GameState>()(
 
       /**
        * Replaces every non-held card in the hand with a new card from the deck, moving the replaced cards to the discard pile.
+       * Marks the hand as evaluated so the result can be displayed after the draw.
        * @returns nothing
        */
       draw: () =>
@@ -123,6 +132,7 @@ export const useGameStore = create<GameState>()(
             hand: newHand,
             deck: remainingDeck,
             discarded: [...state.discarded, ...discardedCards],
+            handEvaluated: true,
           };
         }),
 
