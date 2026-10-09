@@ -39,6 +39,7 @@ export default function PlayerSelect() {
 
   return (
     <section className="player-select">
+      <h1>JACKS OR BETTER</h1>
       <h2>Choose Player</h2>
       <ul>
         {players.map((player) => (
