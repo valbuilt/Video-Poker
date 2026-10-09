@@ -4,7 +4,6 @@
 
   background-color: #235644;
   font-size: 16px;
-  margin-bottom: 30px;
 }
 
 .payout-table thead {
@@ -24,4 +23,15 @@ td {
   color: #f4eb6c;
   text-align: left;
   padding: 4px 12px;
+}
+
+@media (max-width: 768px) {
+  .payout-table {
+    font-size: 0.75rem;
+  }
+
+  .payout-table td,
+  .payout-table th {
+    padding: 4px 6px;
+  }
 }

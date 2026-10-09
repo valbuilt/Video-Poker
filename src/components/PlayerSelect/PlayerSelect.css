@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 100px;
+  margin-top: 50px;
   min-height: 80%;
   font-size: 1.3rem;
 }
@@ -40,11 +40,17 @@
 }
 
 .player-link:hover {
-  color: #db2b39;
+  color: #c0392b;
   transform: scale(1.5);
   text-shadow: 1px 1px 3px white;
 }
 
 .player-avatar {
   font-size: 3rem;
+}
+
+@media (max-width: 400px) {
+  .player-select h1 {
+    font-size: 1.8rem;
+  }
 }
