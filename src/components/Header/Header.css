@@ -4,6 +4,7 @@ nav {
   padding: 12px;
   font-weight: bold;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 nav a {
@@ -19,6 +20,6 @@ nav a:hover {
 }
 
 nav a.active {
-  color: #db2b39;
+  color: #c0392b;
   text-shadow: 1px 1px 3px white;
 }
