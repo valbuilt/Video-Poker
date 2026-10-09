@@ -2,6 +2,9 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { Player, PlayingCard, HeldCard } from "../types.ts";
 import { createDeck, shuffleDeck, dealHand } from "../logic/deck.ts";
+import { evaluateHand } from "../logic/evaluateHand.ts";
+import { getPayout } from "../logic/payouts.ts";
+import { changePlayerCoins } from "../logic/coins.ts";
 
 type GameState = {
   players: Player[];
@@ -57,31 +60,29 @@ export const useGameStore = create<GameState>()(
        * @returns nothing
        */
       updateCoins: (amount) =>
-        set((state) => {
-          if (!state.currentPlayer) {
-            return state;
-          }
-
-          const updatedPlayer: Player = {
-            ...state.currentPlayer,
-            coins: state.currentPlayer.coins + amount,
-          };
-
-          return {
-            currentPlayer: updatedPlayer,
-            players: state.players.map((player) =>
-              player.name === updatedPlayer.name ? updatedPlayer : player,
-            ),
-          };
-        }),
+        set((state) =>
+          changePlayerCoins(state.currentPlayer, state.players, amount),
+        ),
 
       /**
        * Builds a fresh deck, shuffles it and deals 5 cards as the player's new hand.
-       * Clears the discard pile and resets handEvaluated so the result isn't shown before the next draw.
+       * Takes the bet from the player's coins and clears the discard pile.
+       * Does nothing if a round is already running or the player can’t afford the bet.
        * @returns nothing
        */
       dealNewHand: () =>
-        set(() => {
+        set((state) => {
+          const roundInProgress =
+            state.hand.length === 5 && !state.handEvaluated;
+          const canAffordCoins =
+            state.currentPlayer !== null &&
+            state.currentPlayer.coins >= state.bet;
+
+          // can't deal in the middle of a round, or without enough coins
+          if (roundInProgress || !canAffordCoins) {
+            return state;
+          }
+
           const freshDeck = shuffleDeck(createDeck());
           const { hand, remainingDeck } = dealHand(freshDeck);
           const handWithHoldMark: HeldCard[] = hand.map((card) => ({
@@ -94,6 +95,11 @@ export const useGameStore = create<GameState>()(
             hand: handWithHoldMark,
             discarded: [],
             handEvaluated: false,
+            ...changePlayerCoins(
+              state.currentPlayer,
+              state.players,
+              -state.bet,
+            ),
           };
         }),
 
@@ -110,12 +116,17 @@ export const useGameStore = create<GameState>()(
         })),
 
       /**
-       * Replaces every non-held card in the hand with a new card from the deck, moving the replaced cards to the discard pile.
-       * Marks the hand as evaluated so the result can be displayed after the draw.
+       *Replaces every non-held card in the hand with a new card from the deck, moving the replaced cards to the discard pile.
+       * Pays out the winnings for the final hand. Does nothing if no hand was dealt or it was already drawn.
        * @returns nothing
        */
       draw: () =>
         set((state) => {
+          // can only draw once, after a hand has been dealt
+          if (state.hand.length !== 5 || state.handEvaluated) {
+            return state;
+          }
+
           const keptCards = state.hand.filter((card) => card.held);
           const discardedCards = state.hand.filter((card) => !card.held);
           const numberToReplace = discardedCards.length;
@@ -128,11 +139,15 @@ export const useGameStore = create<GameState>()(
             ...newCards.map((card) => ({ ...card, held: false })),
           ];
 
+          const pokerHand = evaluateHand(newHand);
+          const winnings = getPayout(pokerHand, state.bet);
+
           return {
             hand: newHand,
             deck: remainingDeck,
             discarded: [...state.discarded, ...discardedCards],
             handEvaluated: true,
+            ...changePlayerCoins(state.currentPlayer, state.players, winnings),
           };
         }),
 

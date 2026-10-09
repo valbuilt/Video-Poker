@@ -26,6 +26,8 @@ export default function Game() {
     handEvaluated && hand.length === 5 ? evaluateHand(hand) : null;
   const isWinningHand =
     pokerHand !== null && pokerHand !== "High Card" && pokerHand !== "Pair";
+  const roundInProgress = hand.length === 5 && !handEvaluated;
+  const canAffordCoins = currentPlayer !== null && currentPlayer.coins >= bet;
 
   return (
     <div className="game-page">
@@ -61,14 +63,32 @@ export default function Game() {
           {currentPlayer && <TotalCoins coins={currentPlayer.coins} />}
           <CurrentBet bet={bet} />
           <div className="bet-buttons">
-            <button onClick={increaseBet}>Increase Bet</button>
-            <button onClick={decreaseBet}>Decrease Bet</button>
+            <button onClick={increaseBet} disabled={roundInProgress}>
+              Increase Bet
+            </button>
+            <button onClick={decreaseBet} disabled={roundInProgress}>
+              Decrease Bet
+            </button>
           </div>
         </div>
 
+        {!currentPlayer && (
+          <p className="hint">Pick a player on the first page to play.</p>
+        )}
+        {currentPlayer && !canAffordCoins && !roundInProgress && (
+          <p className="hint">Not enough coins for this bet, lower it.</p>
+        )}
+
         <div className="buttons">
-          <button onClick={dealNewHand}>Deal</button>
-          <button onClick={draw}>Draw</button>
+          <button
+            onClick={dealNewHand}
+            disabled={roundInProgress || !canAffordCoins}
+          >
+            Deal
+          </button>
+          <button onClick={draw} disabled={!roundInProgress}>
+            Draw
+          </button>
         </div>
       </div>
     </div>
