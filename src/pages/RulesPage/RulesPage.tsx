@@ -1,4 +1,5 @@
 import PayoutTable from "../../components/PayoutTable/PayoutTable.tsx";
+import Card from "../../components/Card/Card.tsx";
 import "./RulesPage.css";
 
 /**
@@ -32,13 +33,20 @@ export default function RulesPage() {
       </ol>
       <p>
         From Jacks or Better all the way up to a Royal Flush, every winning hand
-        has its own payout. The more coins you bet, the higher your potential
-        payout.
+        has its own payout.
       </p>
+      <p>The more coins you bet, the higher your potential payout.</p>
+
       <p>
         <strong>Ready to test your luck? Deal your hand!</strong>
       </p>
-      <PayoutTable />;
+      <div className="rules-layout">
+        <PayoutTable />
+        <div className="rules-cards">
+          <Card card={{ suit: "hearts", rank: "A" }} />
+          <Card card={{ suit: "spades", rank: "K" }} faceDown />
+        </div>
+      </div>
     </section>
   );
 }

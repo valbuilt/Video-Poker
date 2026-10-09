@@ -1,0 +1,81 @@
+.game-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+.game-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hand {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+.buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.buttons button {
+  font-size: 1.2rem;
+  padding: 12px 24px;
+  font-weight: bold;
+}
+
+.card-wrapper {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+}
+
+.hold-label {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.bet-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 24px;
+}
+
+.bet-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.bet-buttons button {
+  font-size: 1.2rem;
+  padding: 8px 20px;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .game-page {
+    padding: 0 8px;
+  }
+
+  .hand {
+    width: auto;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .hold-label {
+    font-size: 1rem;
+  }
+}

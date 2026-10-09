@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { useGameStore } from "../../store/gameStore.ts";
+import { NavLink } from "react-router";
+import type { Player } from "../../types.ts";
+import "./PlayerSelect.css";
 
 /**
  * Shows a list of existing players and lets the user create a new one.
@@ -36,14 +39,19 @@ export default function PlayerSelect() {
   }
 
   return (
-    <section>
+    <section className="player-select">
       <h2>Choose Player</h2>
       <ul>
         {players.map((player) => (
           <li key={player.name}>
-            <button onClick={() => selectPlayer(player)}>
+            <NavLink
+              className="player-link"
+              to="/game"
+              onClick={() => selectPlayer(player)}
+            >
+              <span className="player-avatar">♠</span>
               {player.name}: {player.coins} coins
-            </button>
+            </NavLink>
           </li>
         ))}
       </ul>

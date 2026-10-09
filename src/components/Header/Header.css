@@ -4,6 +4,7 @@ nav {
   padding: 12px;
   font-weight: bold;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 nav a {
@@ -15,9 +16,10 @@ nav a {
 }
 
 nav a:hover {
-  opacity: 0.5;
+  text-decoration: underline;
 }
 
 nav a.active {
-  opacity: 0.6;
+  color: #c0392b;
+  text-shadow: 1px 1px 3px white;
 }
